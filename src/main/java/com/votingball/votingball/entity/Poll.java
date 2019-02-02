@@ -16,29 +16,23 @@ public class Poll {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "creationLocalDateTime")
-    private LocalDateTime creationLocalDateTime;
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 
-    @Column(name = "lastModification")
+    @Column(name = "last_modification_date")
     private LocalDateTime lastModification;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "poll_positions",
-            joinColumns = { @JoinColumn(name = "poll_id") },
-            inverseJoinColumns = { @JoinColumn(name = "position_id") }
-    )
+    @OneToMany(cascade = { CascadeType.ALL },mappedBy = "poll")
     private List<Position> positions;
 
     public Poll() {
     }
 
-    public Poll(String title, LocalDateTime creationLocalDateTime, LocalDateTime lastModification) {
+    public Poll(String title, LocalDateTime creationDate, LocalDateTime lastModification) {
         this.title = title;
-        this.creationLocalDateTime = creationLocalDateTime;
+        this.creationDate = creationDate;
         this.lastModification = lastModification;
     }
-
 
     public int getId() {
         return id;
@@ -56,12 +50,12 @@ public class Poll {
         this.title = title;
     }
 
-    public LocalDateTime getCreationLocalDateTime() {
-        return creationLocalDateTime;
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreationLocalDateTime(LocalDateTime creationLocalDateTime) {
-        this.creationLocalDateTime = creationLocalDateTime;
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     public LocalDateTime getLastModification() {
@@ -72,11 +66,11 @@ public class Poll {
         this.lastModification = lastModification;
     }
 
-    public List<Position> getPositions() {
-        return positions;
-    }
-
     public void setPositions(List<Position> positions) {
         this.positions = positions;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
     }
 }

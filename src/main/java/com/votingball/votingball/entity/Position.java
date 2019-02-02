@@ -1,7 +1,8 @@
 package com.votingball.votingball.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "positions")
@@ -12,14 +13,16 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "poll_id")
+    @JsonIgnore
+    private Poll poll;
+
     @Column(name = "order")
     private int order;
 
     @Column(name = "name")
     private String name;
-
-    @ManyToMany(mappedBy = "positions")
-    List<Poll> polls;
 
     public Position() {
     }
@@ -35,6 +38,14 @@ public class Position {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Poll getPoll() {
+        return poll;
+    }
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
     }
 
     public int getOrder() {
@@ -53,11 +64,4 @@ public class Position {
         this.name = name;
     }
 
-    public List<Poll> getPolls() {
-        return polls;
-    }
-
-    public void setPolls(List<Poll> polls) {
-        this.polls = polls;
-    }
 }

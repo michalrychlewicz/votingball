@@ -10,6 +10,6 @@ public class DummyClass {
 
     public List<Poll> findAll()
     {
-      return Arrays.asList(new Poll("dupa",LocalDateTime.now(),LocalDateTime.now()));
+      return Arrays.asList(new Poll("dummy",LocalDateTime.now(),LocalDateTime.now()));
     }
 }
