@@ -98,4 +98,5 @@ public class Poll {
                 ", positions=" + positions +
                 '}';
     }
+
 }

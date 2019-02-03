@@ -1,6 +1,6 @@
 package com.votingball.votingball.controllers;
 
-import com.votingball.votingball.dao.PollRepository;
+import com.votingball.votingball.dao.PollsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AllPollsController {
 
     @Autowired
-    private PollRepository repository;
+    private PollsDao pollsDao;
 
     @GetMapping("/allpolls")
     public String getAllPolls(Model model)
     {
-        model.addAttribute("allPolls",repository.findAll());
+        model.addAttribute("allPolls",pollsDao.findAll());
         return "all-polls";
     }
 }

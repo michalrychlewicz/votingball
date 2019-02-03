@@ -31,6 +31,11 @@ public class Position implements Comparable<Position> {
     }
 
     public Position(int order, String name, int votesCount) {
+        this(null, order, name, votesCount);
+    }
+
+    public Position(Poll poll, int order, String name, int votesCount) {
+        this.poll = poll;
         this.order = order;
         this.name = name;
         this.votesCount = votesCount;
@@ -68,15 +73,6 @@ public class Position implements Comparable<Position> {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Position{" +
-                "id=" + id +
-                ", order=" + order +
-                ", name='" + name + '\'' +
-                ", votesCount=" + votesCount +
-                '}';
-    }
 
     public int getVotesCount() {
         return votesCount;
@@ -87,11 +83,26 @@ public class Position implements Comparable<Position> {
     }
 
     @Override
+    public String toString() {
+        return "Position{" +
+                "id=" + id +
+                ", order=" + order +
+                ", name=" + name +
+                ", votesCount=" + votesCount + ", "+
+                getPollInformation(poll) + "}";
+    }
+
+    @Override
     public int compareTo(Position position) {
-        if(order == position.order)
-        {
+        if (order == position.order) {
             return 0;
         }
         return order < position.order ? -1 : 1;
+    }
+
+
+
+    private String getPollInformation(Poll poll) {
+        return poll != null ? "Poll{id= = " + poll.getId() + ", title=" + poll.getTitle()+"}" : "poll = null";
     }
 }
