@@ -4,7 +4,6 @@ USE `votingball`;
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `polls`;
 DROP TABLE IF EXISTS `positions`;
-DROP TABLE IF EXISTS `poll_positions`;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE `polls` (
@@ -18,8 +17,8 @@ CREATE TABLE `polls` (
 CREATE TABLE `positions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `poll_id` int(11) NOT NULL,
-  `order` int(45) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `position_order` int(45) NOT NULL,
+  `position_name` varchar(255) NOT NULL,
   `votes_count` integer NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`poll_id`) REFERENCES polls(`id`)

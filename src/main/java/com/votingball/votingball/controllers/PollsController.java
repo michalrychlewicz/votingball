@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AllPollsController {
+public class PollsController {
 
     @Autowired
     private PollsDao pollsDao;
@@ -18,4 +18,6 @@ public class AllPollsController {
         model.addAttribute("allPolls",pollsDao.findAll());
         return "all-polls";
     }
+
+
 }

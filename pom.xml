@@ -11,7 +11,7 @@
     <groupId>com.votingball</groupId>
     <artifactId>votingball</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>votingball</name>
+    <positionName>votingball</positionName>
     <description>Demo project for Spring Boot</description>
 
     <properties>

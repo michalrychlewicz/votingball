@@ -18,11 +18,11 @@ public class Position implements Comparable<Position> {
     @JsonIgnore
     private Poll poll;
 
-    @Column(name = "order")
-    private int order;
+    @Column(name = "position_order")
+    private int positionOrder;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "position_name")
+    private String positionName;
 
     @Column(name = "votes_count")
     private int votesCount;
@@ -30,14 +30,14 @@ public class Position implements Comparable<Position> {
     public Position() {
     }
 
-    public Position(int order, String name, int votesCount) {
-        this(null, order, name, votesCount);
+    public Position(int positionOrder, String positionName, int votesCount) {
+        this(null, positionOrder, positionName, votesCount);
     }
 
-    public Position(Poll poll, int order, String name, int votesCount) {
+    public Position(Poll poll, int positionOrder, String positionName, int votesCount) {
         this.poll = poll;
-        this.order = order;
-        this.name = name;
+        this.positionOrder = positionOrder;
+        this.positionName = positionName;
         this.votesCount = votesCount;
     }
 
@@ -57,20 +57,20 @@ public class Position implements Comparable<Position> {
         this.poll = poll;
     }
 
-    public int getOrder() {
-        return order;
+    public int getPositionOrder() {
+        return positionOrder;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setPositionOrder(int positionOrder) {
+        this.positionOrder = positionOrder;
     }
 
-    public String getName() {
-        return name;
+    public String getPositionName() {
+        return positionName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
     }
 
 
@@ -86,18 +86,18 @@ public class Position implements Comparable<Position> {
     public String toString() {
         return "Position{" +
                 "id=" + id +
-                ", order=" + order +
-                ", name=" + name +
+                ", positionOrder=" + positionOrder +
+                ", positionName=" + positionName +
                 ", votesCount=" + votesCount + ", "+
                 getPollInformation(poll) + "}";
     }
 
     @Override
     public int compareTo(Position position) {
-        if (order == position.order) {
+        if (positionOrder == position.positionOrder) {
             return 0;
         }
-        return order < position.order ? -1 : 1;
+        return positionOrder < position.positionOrder ? -1 : 1;
     }
 
 

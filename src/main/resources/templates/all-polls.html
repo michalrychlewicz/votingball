@@ -29,7 +29,7 @@
         <!--<td th:text="${poll.positions}" />-->
         <td>
             <div th:each="position : ${poll.positions}">
-            <p th:text="${position.order} + ': ' + ${position.name} + ' votes: '+ ${position.votesCount}"></p>
+            <p th:text="${position.positionOrder} + ': ' + ${position.positionName} + ' votes: '+ ${position.votesCount}"></p>
             </div>
         </td>
     </tr>
