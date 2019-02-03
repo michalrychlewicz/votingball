@@ -1,8 +1,12 @@
 package com.votingball.votingball.entity;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = "polls")
@@ -20,18 +24,28 @@ public class Poll {
     private LocalDateTime creationDate;
 
     @Column(name = "last_modification_date")
+    @UpdateTimestamp
     private LocalDateTime lastModification;
 
     @OneToMany(cascade = { CascadeType.ALL },mappedBy = "poll")
-    private List<Position> positions;
+    private Set<Position> positions;
 
     public Poll() {
     }
 
-    public Poll(String title, LocalDateTime creationDate, LocalDateTime lastModification) {
+    public Poll(String title) {
+        this(title,new HashSet<>());
+    }
+
+    public Poll(String title, Set<Position> positions) {
+        this(title,LocalDateTime.now(),LocalDateTime.now(),positions);
+    }
+
+    public Poll(String title, LocalDateTime creationDate, LocalDateTime lastModification, Set<Position> positions) {
         this.title = title;
         this.creationDate = creationDate;
         this.lastModification = lastModification;
+        this.positions = positions;
     }
 
     public int getId() {
@@ -58,19 +72,30 @@ public class Poll {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getLastModification() {
-        return lastModification;
-    }
-
     public void setLastModification(LocalDateTime lastModification) {
         this.lastModification = lastModification;
     }
 
-    public void setPositions(List<Position> positions) {
+    public LocalDateTime getLastModification() {
+        return lastModification;
+    }
+
+    public void setPositions(Set<Position> positions) {
         this.positions = positions;
     }
 
-    public List<Position> getPositions() {
-        return positions;
+    public Set<Position> getPositions() {
+        return new TreeSet<>(positions);
+    }
+
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", creationDate=" + creationDate +
+                ", lastModification=" + lastModification +
+                ", positions=" + positions +
+                '}';
     }
 }

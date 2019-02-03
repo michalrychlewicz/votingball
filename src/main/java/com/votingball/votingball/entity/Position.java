@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "positions")
-public class Position {
+public class Position implements Comparable<Position> {
 
     @Id
     @Column(name = "id")
@@ -24,12 +24,16 @@ public class Position {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "votes_count")
+    private int votesCount;
+
     public Position() {
     }
 
-    public Position(int order, String name) {
+    public Position(int order, String name, int votesCount) {
         this.order = order;
         this.name = name;
+        this.votesCount = votesCount;
     }
 
     public int getId() {
@@ -64,4 +68,30 @@ public class Position {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Position{" +
+                "id=" + id +
+                ", order=" + order +
+                ", name='" + name + '\'' +
+                ", votesCount=" + votesCount +
+                '}';
+    }
+
+    public int getVotesCount() {
+        return votesCount;
+    }
+
+    public void setVotesCount(int votesCount) {
+        this.votesCount = votesCount;
+    }
+
+    @Override
+    public int compareTo(Position position) {
+        if(order == position.order)
+        {
+            return 0;
+        }
+        return order < position.order ? -1 : 1;
+    }
 }

@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import java.util.Arrays;
 
@@ -30,7 +29,9 @@ public class VotingballApplication {
             for (String beanName : beanNames) {
                 System.out.println(beanName);
             }
-            new DummyClass().findAll();
+            DummyClass dummyClass = ctx.getBean("dummyClass",DummyClass.class);
+            dummyClass.findAll();
+            dummyClass.addDummyData();
         };
     }
 

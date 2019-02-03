@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+    <title>Votingball - create your poll now.</title>
+</head>
+
+<body>
+<h3>All polls:</h3>
+<hr>
+
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Creation Date</th>
+        <th>Modification Date</th>
+        <th>Options</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="poll : ${allPolls}">
+
+        <td th:text="${poll.title}" />
+        <td th:text="${poll.creationDate}" />
+        <td th:text="${poll.lastModification}" />
+        <!--<td th:text="${poll.positions}" />-->
+        <td>
+            <div th:each="position : ${poll.positions}">
+            <p th:text="${position.order} + ': ' + ${position.name} + ' votes: '+ ${position.votesCount}"></p>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+
+</html>
