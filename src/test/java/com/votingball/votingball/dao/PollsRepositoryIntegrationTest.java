@@ -11,10 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -32,6 +29,9 @@ public class PollsRepositoryIntegrationTest
 
     @Autowired
     private PollsRepository employeeRepository;
+
+    @Autowired
+    private PositionsRepository positionsRepository;
 
 
     @Test
@@ -52,6 +52,42 @@ public class PollsRepositoryIntegrationTest
         // then
         Poll actualPoll = retrievedPoll.get();
         assertThat(actualPoll,is(equalTo(pollBeingInserted)));
+    }
+
+    @Test
+    public void whenDeletePollFromDatabase_thenDatabaseShouldNotContainThatPollAndItsPositions() {
+        // given
+        Poll pollBeingInserted = preparePollForInsertion();
+        Poll persistedPoll = entityManager.persist(pollBeingInserted);
+        entityManager.flush();
+        int pollId = persistedPoll.getId();
+        Set<Position> persistedPollPositions = persistedPoll.getPositions();
+
+        // when
+        employeeRepository.delete(persistedPoll);
+
+        Optional<Poll> retrievedPoll = employeeRepository.findById(pollId);
+        List<Position> retrievedPositions = getAllExistingCorrespondingPositionsByTheirIds(persistedPollPositions);
+
+        // then
+        if(retrievedPoll.isPresent())
+        {
+            throw new AssertionFailedException("Poll was just deleted. It can not exist in database");
+        }
+        assertThat("Positions should be cascade removed",retrievedPositions.isEmpty(),is(true));
+    }
+    
+    private List<Position> getAllExistingCorrespondingPositionsByTheirIds(Set<Position> persistedPollPositions) {
+        List<Position> retrievedPositions = new ArrayList<>();
+        for(Position persistedPosition : persistedPollPositions)
+        {
+           Optional<Position> retrievedPosition = positionsRepository.findById(persistedPosition.getId());
+           if(retrievedPosition.isPresent())
+           {
+               retrievedPositions.add(retrievedPosition.get());
+           }
+        }
+        return retrievedPositions;
     }
 
     private Poll preparePollForInsertion() {
