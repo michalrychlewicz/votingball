@@ -3,6 +3,7 @@ package com.votingball.votingball.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "positions")
@@ -100,7 +101,21 @@ public class Position implements Comparable<Position> {
         return positionOrder < position.positionOrder ? -1 : 1;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return positionOrder == position.positionOrder &&
+                votesCount == position.votesCount &&
+                Objects.equals(positionName, position.positionName);
+    }
 
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(positionOrder, positionName, votesCount);
+    }
 
     private String getPollInformation(Poll poll) {
         return poll != null ? "Poll{id= = " + poll.getId() + ", title=" + poll.getTitle()+"}" : "poll = null";

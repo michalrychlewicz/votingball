@@ -5,6 +5,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -99,4 +100,20 @@ public class Poll {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Poll poll = (Poll) o;
+        return Objects.equals(title, poll.title) &&
+                Objects.equals(creationDate, poll.creationDate) &&
+                Objects.equals(lastModification, poll.lastModification) &&
+                Objects.equals(positions, poll.positions);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(title, creationDate, lastModification, positions);
+    }
 }

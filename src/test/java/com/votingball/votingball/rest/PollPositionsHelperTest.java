@@ -11,7 +11,7 @@ import java.util.Set;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-class PollPositionsHelperTest {
+public class PollPositionsHelperTest {
 
     @Test
     public void shouldFillPositionsIdsWithPollId_whenSuchArePassed()
