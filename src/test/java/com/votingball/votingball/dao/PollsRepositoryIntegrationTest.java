@@ -36,7 +36,7 @@ public class PollsRepositoryIntegrationTest
     @Test
     public void whenFindById_thenReturnPoll() {
         // given
-        Poll pollBeingInserted = preparePollForInsertion("pollTitle");
+        Poll pollBeingInserted = preparePoll("pollTitle");
         Poll persistedPoll = entityManager.persist(pollBeingInserted);
         entityManager.flush();
         int pollId = persistedPoll.getId();
@@ -53,9 +53,9 @@ public class PollsRepositoryIntegrationTest
     @Test
     public void whenDeletePollFromDatabase_thenDatabaseShouldNotContainThatPollAndItsPositionsAndOtherOnesAreUntouched() {
         // given
-        Poll pollBeingInserted = preparePollForInsertion("pollTitle");
+        Poll pollBeingInserted = preparePoll("pollTitle");
         Poll persistedPoll = entityManager.persist(pollBeingInserted);
-        Poll otherPoll = preparePollForInsertion("pollTittle2");
+        Poll otherPoll = preparePoll("pollTittle2");
         Poll persistedOtherPoll = entityManager.persist(otherPoll);
         entityManager.flush();
         int pollId = persistedPoll.getId();
@@ -77,6 +77,31 @@ public class PollsRepositoryIntegrationTest
         assertThat(retrievedOtherPoll.get(),is(equalTo(persistedOtherPoll)));
         assertThat(retrievedOtherPositions,equalTo(persistedOtherPollPositions));
     }
+
+    @Test
+    public void whenUpdatePoll_SuchShouldBeChanged()
+    {
+        //given
+        Poll pollBeingInserted = preparePoll("pollTitle");
+        Poll persistedPoll = entityManager.persist(pollBeingInserted);
+        entityManager.flush();
+        int pollId = persistedPoll.getId();
+        Poll expectedPoll = preparePoll("changed title");
+
+        Optional<Poll> retrievedPollOptional = employeeRepository.findById(pollId);
+        assertThat(retrievedPollOptional.isPresent(),is(true));
+        Poll retrievedPoll = retrievedPollOptional.get();
+
+        //when
+        retrievedPoll.setTitle("changed title");
+        employeeRepository.save(retrievedPoll);
+        entityManager.flush();
+
+        //then
+        Optional<Poll> actualPollOptional = employeeRepository.findById(pollId);
+        assertThat(actualPollOptional.isPresent(),is(true));
+        assertThat(actualPollOptional.get().getTitle(),is(equalTo(expectedPoll.getTitle())));
+    }
     
     private List<Position> getAllExistingCorrespondingPositionsByTheirIds(Collection<Position> persistedPollPositions) {
         List<Position> retrievedPositions = new ArrayList<>();
@@ -91,7 +116,7 @@ public class PollsRepositoryIntegrationTest
         return retrievedPositions;
     }
 
-    private Poll preparePollForInsertion(String pollTittle) {
+    private Poll preparePoll(String pollTittle) {
         LocalDateTime createdAt = LocalDateTime.of(2019,02,04,10,30);
         LocalDateTime modifiedAt = LocalDateTime.of(2019,02,04,10,30);
         Position position1 = new Position(1,"First position",0);
